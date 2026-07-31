@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerShield Analytics</title>
+    <link rel="stylesheet" href="analytics.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>🛡️ TrackerShield</h1>
+            <p>Privacy Analytics Dashboard</p>
+        </header>
+
+        <section class="summary">
+
+            <div class="card">
+                <h2 id="totalBlocked">0</h2>
+                <span>Total Trackers Blocked</span>
+            </div>
+
+            <div class="card">
+                <h2 id="todayBlocked">0</h2>
+                <span>Blocked Today</span>
+            </div>
+
+            <div class="card">
+                <h2 id="protectedSites">0</h2>
+                <span>Protected Sites</span>
+            </div>
+
+        </section>
+
+        <section class="domains">
+
+            <h2>Top Blocked Domains</h2>
+
+            <ul id="domainList">
+                <li>No data available yet.</li>
+            </ul>
+
+        </section>
+
+        <section class="actions">
+
+            <button id="resetStats">
+                Reset Statistics
+            </button>
+
+            <button id="exportStats">
+                Export Statistics
+            </button>
+
+        </section>
+
+        <footer>
+
+            <p>TrackerShield v1.0</p>
+
+        </footer>
+
+    </div>
+
+    <script src="analytics.js"></script>
+
+</body>
+
+</html>

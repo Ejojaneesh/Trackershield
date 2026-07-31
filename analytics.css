@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #2563EB, #0F172A);
+    color: white;
+    min-width: 420px;
+    min-height: 650px;
+}
+
+.container {
+    padding: 25px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #CBD5E1;
+    font-size: 15px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    padding: 22px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.18);
+}
+
+.card h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: #60A5FA;
+}
+
+.card span {
+    color: #E2E8F0;
+    font-size: 15px;
+}
+
+.domains {
+    background: rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.domains h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+#domainList {
+    list-style: none;
+}
+
+#domainList li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #E2E8F0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #2563EB;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #1D4ED8;
+}
+
+footer {
+    margin-top: 35px;
+    text-align: center;
+    color: #CBD5E1;
+    font-size: 13px;
+}

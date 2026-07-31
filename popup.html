@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerShield</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>🛡️ TrackerShield</h1>
+            <p>Privacy Protection</p>
+        </div>
+
+        <div class="card">
+
+            <div class="status">
+                <span>Protection</span>
+
+                <label class="switch">
+                    <input type="checkbox" id="toggleProtection">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="counter">
+                <h2 id="blockedCount">0</h2>
+                <p>Trackers Blocked</p>
+            </div>
+
+            <div class="stats">
+
+                <div>
+                    <h3 id="todayCount">0</h3>
+                    <span>Today</span>
+                </div>
+
+                <div>
+                    <h3 id="siteCount">0</h3>
+                    <span>Sites</span>
+                </div>
+
+            </div>
+
+            <button id="analyticsBtn">
+                Analytics
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="popup.js"></script>
+
+</body>
+
+</html>
