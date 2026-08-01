@@ -2,10 +2,15 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TrackerShield Analytics</title>
+
     <link rel="stylesheet" href="analytics.css">
+
 </head>
 
 <body>
@@ -13,54 +18,120 @@
     <div class="container">
 
         <header>
+
             <h1>🛡️ TrackerShield</h1>
+
             <p>Privacy Analytics Dashboard</p>
+
         </header>
+
+        <!-- Statistics Cards -->
 
         <section class="summary">
 
             <div class="card">
+
                 <h2 id="totalBlocked">0</h2>
+
                 <span>Total Trackers Blocked</span>
+
             </div>
 
             <div class="card">
+
                 <h2 id="todayBlocked">0</h2>
+
                 <span>Blocked Today</span>
+
             </div>
 
             <div class="card">
-                <h2 id="protectedSites">0</h2>
-                <span>Protected Sites</span>
+
+                <h2 id="uniqueDomains">0</h2>
+
+                <span>Unique Trackers</span>
+
             </div>
 
         </section>
 
+        <!-- Top Domains -->
+
         <section class="domains">
 
-            <h2>Top Blocked Domains</h2>
+            <h2>🌐 Top Blocked Domains</h2>
 
             <ul id="domainList">
-                <li>No data available yet.</li>
+
+                <li>No tracker data available yet.</li>
+
             </ul>
 
         </section>
 
+        <!-- Recent Activity -->
+
+        <section class="activity">
+
+            <h2>🕒 Recent Activity</h2>
+
+            <ul id="activityList">
+
+                <li>No activity recorded yet.</li>
+
+            </ul>
+
+        </section>
+
+        <!-- System Information -->
+
+        <section class="info">
+
+            <h2>ℹ️ Protection Information</h2>
+
+            <p>
+
+                <strong>Last Reset:</strong>
+
+                <span id="lastReset">-</span>
+
+            </p>
+
+        </section>
+
+        <!-- Action Buttons -->
+
         <section class="actions">
 
-            <button id="resetStats">
-                Reset Statistics
+            <button id="exportStats">
+
+                Export Statistics
+
             </button>
 
-            <button id="exportStats">
-                Export Statistics
+            <button
+                id="resetStats"
+                class="danger">
+
+                Reset Statistics
+
             </button>
 
         </section>
 
         <footer>
 
-            <p>TrackerShield v1.0</p>
+            <p>
+
+                TrackerShield v1.2.0
+
+            </p>
+
+            <p>
+
+                Privacy Protection Extension • Chrome Manifest V3
+
+            </p>
 
         </footer>
 

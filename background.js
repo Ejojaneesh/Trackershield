@@ -15,6 +15,10 @@ const DEFAULT_STATISTICS = {
     lastReset: new Date().toISOString().split("T")[0]
 };
 
+// ---------- Active Website ----------
+
+let currentWebsite = "";
+
 // ---------- Utility Functions ----------
 
 function getToday() {
@@ -34,6 +38,7 @@ async function updateBadge(count, enabled) {
         });
 
         return;
+
     }
 
     await chrome.action.setBadgeText({
@@ -66,8 +71,33 @@ async function initializeStorage() {
     if (!Array.isArray(data.blacklist))
         updates.blacklist = [];
 
-    if (!data.statistics)
-        updates.statistics = { ...DEFAULT_STATISTICS };
+    if (!data.statistics) {
+
+        updates.statistics = structuredClone(DEFAULT_STATISTICS);
+
+    }
+
+    else {
+
+        const stats = data.statistics;
+
+        stats.blockedCount ??= 0;
+        stats.todayCount ??= 0;
+        stats.siteCount ??= 0;
+
+        stats.blockedDomains ??= {};
+
+        if (!Array.isArray(stats.protectedSites))
+            stats.protectedSites = [];
+
+        if (!Array.isArray(stats.activityLog))
+            stats.activityLog = [];
+
+        stats.lastReset ??= getToday();
+
+        updates.statistics = stats;
+
+    }
 
     if (Object.keys(updates).length > 0) {
 
@@ -91,15 +121,83 @@ async function performDailyReset() {
     if (stats.lastReset !== getToday()) {
 
         stats.todayCount = 0;
+
         stats.lastReset = getToday();
 
         await chrome.storage.local.set({
+
             statistics: stats
+
         });
 
     }
 
 }
+
+// ---------- Active Tab Tracking ----------
+
+async function updateCurrentWebsite(tab) {
+
+    try {
+
+        if (!tab?.url)
+            return;
+
+        if (
+
+            tab.url.startsWith("chrome://") ||
+
+            tab.url.startsWith("edge://") ||
+
+            tab.url.startsWith("about:")
+
+        )
+            return;
+
+        currentWebsite =
+            new URL(tab.url).hostname;
+
+    }
+
+    catch (error) {
+
+        console.warn(error);
+
+    }
+
+}
+
+chrome.tabs.onActivated.addListener(async () => {
+
+    const tabs = await chrome.tabs.query({
+
+        active: true,
+
+        currentWindow: true
+
+    });
+
+    if (tabs.length)
+
+        await updateCurrentWebsite(tabs[0]);
+
+});
+
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+
+    if (
+
+        tab.active &&
+
+        changeInfo.status === "complete"
+
+    ) {
+
+        await updateCurrentWebsite(tab);
+
+    }
+
+});
 
 // ---------- Installation ----------
 
@@ -110,13 +208,19 @@ chrome.runtime.onInstalled.addListener(async () => {
     await initializeStorage();
 
     const data = await chrome.storage.local.get([
+
         "statistics",
+
         "protectionEnabled"
+
     ]);
 
     await updateBadge(
+
         data.statistics?.blockedCount || 0,
+
         data.protectionEnabled !== false
+
     );
 
 });
@@ -130,13 +234,19 @@ chrome.runtime.onStartup.addListener(async () => {
     await performDailyReset();
 
     const data = await chrome.storage.local.get([
+
         "statistics",
+
         "protectionEnabled"
+
     ]);
 
     await updateBadge(
+
         data.statistics?.blockedCount || 0,
+
         data.protectionEnabled !== false
+
     );
 
 });
@@ -145,9 +255,7 @@ chrome.runtime.onStartup.addListener(async () => {
 
 if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
 
-    chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(async (info) => {
-
-        const data = await chrome.storage.local.get([
+    chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(async (info) => {        const data = await chrome.storage.local.get([
             "statistics",
             "protectionEnabled"
         ]);
@@ -155,14 +263,28 @@ if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
         if (data.protectionEnabled === false)
             return;
 
-        const stats = data.statistics || { ...DEFAULT_STATISTICS };
+        const stats = data.statistics || structuredClone(DEFAULT_STATISTICS);
 
-        stats.blockedCount++;
-        stats.todayCount++;
+        // Ensure all required fields exist
+
+        stats.blockedCount ??= 0;
+        stats.todayCount ??= 0;
+        stats.siteCount ??= 0;
+
+        if (!stats.blockedDomains)
+            stats.blockedDomains = {};
+
+        if (!Array.isArray(stats.protectedSites))
+            stats.protectedSites = [];
+
+        if (!Array.isArray(stats.activityLog))
+            stats.activityLog = [];
 
         try {
 
+            // ==========================
             // Tracker Domain
+            // ==========================
 
             const trackerDomain =
                 new URL(info.request.url).hostname;
@@ -170,20 +292,23 @@ if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
             stats.blockedDomains[trackerDomain] =
                 (stats.blockedDomains[trackerDomain] || 0) + 1;
 
+            // ==========================
+            // Statistics
+            // ==========================
+
+            stats.blockedCount++;
+
+            stats.todayCount++;
+
+            // ==========================
             // Protected Website
+            // ==========================
 
-            const pageUrl =
-                info.request.initiator ||
-                info.request.documentUrl;
+            if (currentWebsite) {
 
-            if (pageUrl) {
+                if (!stats.protectedSites.includes(currentWebsite)) {
 
-                const protectedSite =
-                    new URL(pageUrl).hostname;
-
-                if (!stats.protectedSites.includes(protectedSite)) {
-
-                    stats.protectedSites.push(protectedSite);
+                    stats.protectedSites.push(currentWebsite);
 
                     stats.siteCount =
                         stats.protectedSites.length;
@@ -192,15 +317,18 @@ if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
 
             }
 
+            // ==========================
             // Activity Log
+            // ==========================
 
             stats.activityLog.unshift({
 
                 tracker: trackerDomain,
 
-                website: pageUrl || "Unknown",
+                website: currentWebsite || "Unknown",
 
-                timestamp: new Date().toLocaleString(),
+                timestamp:
+                    new Date().toLocaleString(),
 
                 action: "Blocked"
 
@@ -217,8 +345,11 @@ if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
         catch (error) {
 
             console.warn(
+
                 "TrackerShield:",
+
                 error.message
+
             );
 
         }
