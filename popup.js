@@ -14,27 +14,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const settingsBtn = document.getElementById("settingsBtn");
 
     // ==========================
-    // Load Storage
+    // Refresh Popup
     // ==========================
 
-    const data = await chrome.storage.local.get([
-        "protectionEnabled",
-        "statistics"
-    ]);
+    async function refreshPopup() {
 
-    const stats = data.statistics || {
+        const data = await chrome.storage.local.get([
+            "protectionEnabled",
+            "statistics"
+        ]);
 
-        blockedCount: 0,
-        todayCount: 0,
-        siteCount: 0
+        const stats = data.statistics || {
 
-    };
+            blockedCount: 0,
+            todayCount: 0,
+            siteCount: 0
 
-    toggle.checked = data.protectionEnabled !== false;
+        };
 
-    blockedCount.textContent = stats.blockedCount || 0;
-    todayCount.textContent = stats.todayCount || 0;
-    siteCount.textContent = stats.siteCount || 0;
+        toggle.checked = data.protectionEnabled !== false;
+
+        blockedCount.textContent = stats.blockedCount || 0;
+        todayCount.textContent = stats.todayCount || 0;
+        siteCount.textContent = stats.siteCount || 0;
+
+    }
+
+    // Initial Load
+    await refreshPopup();
 
     // ==========================
     // Protection Toggle
@@ -71,6 +78,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     settingsBtn.addEventListener("click", () => {
 
         chrome.runtime.openOptionsPage();
+
+    });
+
+    // ==========================
+    // Auto Refresh Popup
+    // ==========================
+
+    chrome.storage.onChanged.addListener(async (changes, area) => {
+
+        if (area === "local") {
+
+            await refreshPopup();
+
+        }
 
     });
 
