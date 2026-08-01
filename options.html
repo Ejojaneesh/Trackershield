@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TrackerShield Settings</title>
+
+    <link rel="stylesheet" href="options.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <h1>🛡️ TrackerShield</h1>
+
+            <p>Privacy Protection Settings</p>
+
+        </header>
+
+        <!-- Protection -->
+
+        <section class="card">
+
+            <h2>Protection</h2>
+
+            <div style="display:flex;align-items:center;">
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="toggleProtection">
+
+                    <span class="slider"></span>
+
+                </label>
+
+                <span id="statusText">
+
+                    Protection Enabled
+
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- Whitelist -->
+
+        <section class="card">
+
+            <h2>Whitelist</h2>
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="whitelistInput"
+                    placeholder="example.com">
+
+                <button id="addWhitelist">
+
+                    Add
+
+                </button>
+
+            </div>
+
+            <ul id="whitelist"></ul>
+
+        </section>
+
+        <!-- Blacklist -->
+
+        <section class="card">
+
+            <h2>Blacklist</h2>
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="blacklistInput"
+                    placeholder="tracker.com">
+
+                <button id="addBlacklist">
+
+                    Add
+
+                </button>
+
+            </div>
+
+            <ul id="blacklist"></ul>
+
+        </section>
+
+        <!-- Statistics -->
+
+        <section class="card">
+
+            <h2>Protection Summary</h2>
+
+            <div class="stats">
+
+                <div>
+
+                    <strong id="blockedCount">
+
+                        0
+
+                    </strong>
+
+                    <span>
+
+                        Blocked Trackers
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <strong id="todayBlocked">
+
+                        0
+
+                    </strong>
+
+                    <span>
+
+                        Today's Blocked
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button id="exportSettings">
+
+                    Export Backup
+
+                </button>
+
+                <button id="exportStats">
+
+                    Export Statistics
+
+                </button>
+
+                <button
+                    id="resetStats"
+                    class="danger">
+
+                    Reset Statistics
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- About -->
+
+        <section class="card">
+
+            <h2>About TrackerShield</h2>
+
+            <p>
+
+                <strong>Version:</strong> 1.2.0
+
+            </p>
+
+            <p>
+
+                TrackerShield is a privacy-focused Chrome extension that blocks known tracking scripts, protects user privacy, and provides analytics.
+
+            </p>
+
+            <p>
+
+                Developed as a cybersecurity project using Chrome Manifest V3.
+
+            </p>
+
+        </section>
+
+    </div>
+
+    <script src="options.js"></script>
+
+</body>
+
+</html>

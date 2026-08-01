@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "TrackerShield",
-  "version": "1.0.0",
-  "description": "A privacy-focused browser extension that blocks known tracking scripts and provides analytics.",
+  "version": "1.2.0",
+  "description": "A privacy-focused browser extension that blocks known tracking scripts, protects user privacy, and provides analytics.",
 
   "permissions": [
     "storage",
@@ -23,6 +23,8 @@
     "default_popup": "popup.html",
     "default_title": "TrackerShield"
   },
+
+  "options_page": "options.html",
 
   "icons": {
     "16": "icons/icon16.png",

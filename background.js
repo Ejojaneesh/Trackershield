@@ -1,6 +1,6 @@
 // ===========================================
 // TrackerShield Background Service
-// Version: 1.0 Core
+// Version: 1.2.0
 // ===========================================
 
 // ---------- Constants ----------
@@ -67,7 +67,7 @@ async function initializeStorage() {
         updates.blacklist = [];
 
     if (!data.statistics)
-        updates.statistics = DEFAULT_STATISTICS;
+        updates.statistics = { ...DEFAULT_STATISTICS };
 
     if (Object.keys(updates).length > 0) {
 
@@ -105,7 +105,7 @@ async function performDailyReset() {
 
 chrome.runtime.onInstalled.addListener(async () => {
 
-    console.log("TrackerShield installed.");
+    console.log("TrackerShield installed successfully.");
 
     await initializeStorage();
 
@@ -141,7 +141,7 @@ chrome.runtime.onStartup.addListener(async () => {
 
 });
 
-// ---------- Tracker Events (Development) ----------
+// ---------- Tracker Detection ----------
 
 if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
 
@@ -155,31 +155,86 @@ if (chrome.declarativeNetRequest.onRuleMatchedDebug) {
         if (data.protectionEnabled === false)
             return;
 
-        const stats = data.statistics || structuredClone(DEFAULT_STATISTICS);
+        const stats = data.statistics || { ...DEFAULT_STATISTICS };
 
         stats.blockedCount++;
         stats.todayCount++;
 
         try {
 
-            const domain = new URL(info.request.url).hostname;
+            // Tracker Domain
 
-            stats.blockedDomains[domain] =
-                (stats.blockedDomains[domain] || 0) + 1;
+            const trackerDomain =
+                new URL(info.request.url).hostname;
 
-        } catch (e) {
+            stats.blockedDomains[trackerDomain] =
+                (stats.blockedDomains[trackerDomain] || 0) + 1;
 
-            console.warn("Unable to parse blocked URL.");
+            // Protected Website
+
+            const pageUrl =
+                info.request.initiator ||
+                info.request.documentUrl;
+
+            if (pageUrl) {
+
+                const protectedSite =
+                    new URL(pageUrl).hostname;
+
+                if (!stats.protectedSites.includes(protectedSite)) {
+
+                    stats.protectedSites.push(protectedSite);
+
+                    stats.siteCount =
+                        stats.protectedSites.length;
+
+                }
+
+            }
+
+            // Activity Log
+
+            stats.activityLog.unshift({
+
+                tracker: trackerDomain,
+
+                website: pageUrl || "Unknown",
+
+                timestamp: new Date().toLocaleString(),
+
+                action: "Blocked"
+
+            });
+
+            if (stats.activityLog.length > 100) {
+
+                stats.activityLog.pop();
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                "TrackerShield:",
+                error.message
+            );
 
         }
 
         await chrome.storage.local.set({
+
             statistics: stats
+
         });
 
         await updateBadge(
+
             stats.blockedCount,
+
             true
+
         );
 
     });
