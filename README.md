@@ -3,56 +3,80 @@
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
 ![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green)
-![Version](https://img.shields.io/badge/Version-1.2.0-blue)
-![License](https://img.shields.io/badge/License-MIT-success)
+![Version](https://img.shields.io/badge/Version-1.2.0-orange)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
-A privacy-focused Chrome Extension built using **Chrome Manifest V3** that blocks known tracking scripts, protects users from online trackers, and provides a modern analytics dashboard with real-time statistics.
+A privacy-focused Chrome Extension built using Chrome Manifest V3 that blocks known tracking scripts, protects user privacy, and provides real-time analytics of blocked trackers.
 
 ---
 
-# 📖 Overview
+# 📖 Table of Contents
 
-TrackerShield is a lightweight privacy-focused browser extension that enhances user security by blocking known tracking requests before they reach the browser.
-
-It provides a clean user interface for monitoring tracker activity, viewing analytics, managing trusted and blocked domains, and exporting local statistics—all while keeping user data private.
+- Features
+- Technologies Used
+- Project Structure
+- Screenshots
+- Installation
+- How It Works
+- Future Improvements
+- Author
+- License
 
 ---
 
 # ✨ Features
 
-### 🛡️ Privacy Protection
+- 🛡️ Tracker protection toggle
+- 🚫 Blocks known tracking domains
+- 📊 Analytics dashboard
+- ⚙️ Settings page
+- 📈 Real-time statistics
+- 💾 Local Chrome Storage
+- 🌐 Site activity tracking
+- 🔄 Reset statistics option
+- ⚡ Chrome Manifest V3 compliant
 
-- Block known tracking domains
-- Real-time tracker blocking
-- Lightweight background service
-- Manifest V3 architecture
-- Privacy-first design
+---
 
-### 📊 Analytics Dashboard
+# 🛠 Technologies Used
 
-- Total blocked trackers
-- Today's blocked trackers
-- Protected websites counter
-- Top blocked tracker domains
-- Activity log
-- Statistics export
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- Chrome Extension API
+- Chrome Storage API
+- Declarative Net Request API
+- Manifest V3
 
-### ⚙️ Settings
+---
 
-- Enable / Disable protection
-- Whitelist management
-- Blacklist management
-- Export backup
-- Export statistics
-- Reset statistics
+# 📂 Project Structure
 
-### 📈 Statistics
-
-- Badge counter
-- Daily statistics
-- Protected sites counter
-- Local Chrome Storage
-- Activity tracking
+```
+TrackerShield/
+│
+├── icons/
+├── analytics.html
+├── analytics.css
+├── analytics.js
+├── options.html
+├── options.css
+├── options.js
+├── popup.html
+├── popup.css
+├── popup.js
+├── background.js
+├── statistics.js
+├── rules.json
+├── trackers.txt
+├── manifest.json
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+└── SECURITY.md
+```
 
 ---
 
@@ -60,193 +84,75 @@ It provides a clean user interface for monitoring tracker activity, viewing anal
 
 ## 🛡️ Extension Popup
 
-![Extension Popup](screenshots/01-popup-dashboard.png)
+![Extension Popup](01-popup-dashboard.png)
 
 ---
 
 ## 📊 Analytics Dashboard
 
-![Analytics Dashboard](screenshots/02-analytics-dashboard.png)
+![Analytics Dashboard](02-analytics-dashboard.png)
 
 ---
 
 ## ⚙️ Settings Page
 
-![Settings Page](screenshots/03-settings-page.png)
+![Settings Page](03-settings-page.png)
 
 ---
 
 # 🚀 Installation
 
-## Clone the Repository
+1. Download or clone this repository.
 
-```bash
+```
 git clone https://github.com/Ejojaneesh/Trackershield.git
 ```
 
-## Load the Extension
+2. Open Google Chrome.
 
-1. Open Google Chrome.
-2. Navigate to:
+3. Navigate to:
 
 ```
-chrome://extensions
+chrome://extensions/
 ```
 
-3. Enable **Developer Mode**.
-4. Click **Load unpacked**.
-5. Select the TrackerShield project folder.
-6. The extension is now ready to use.
+4. Enable **Developer Mode**.
+
+5. Click **Load Unpacked**.
+
+6. Select the TrackerShield project folder.
+
+7. The extension is now installed and ready to use.
 
 ---
 
-# 📂 Project Structure
+# ⚙️ How It Works
 
-```text
-TrackerShield/
-│
-├── assets/
-├── icons/
-├── screenshots/
-│   ├── 01-popup-dashboard.png
-│   ├── 02-analytics-dashboard.png
-│   └── 03-settings-page.png
-│
-├── analytics.css
-├── analytics.html
-├── analytics.js
-│
-├── background.js
-├── generate_rules.js
-│
-├── manifest.json
-│
-├── options.css
-├── options.html
-├── options.js
-│
-├── popup.css
-├── popup.html
-├── popup.js
-│
-├── rules.json
-├── trackers.txt
-│
-├── README.md
-├── LICENSE
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── CODE_OF_CONDUCT.md
-└── .gitignore
-```
+TrackerShield uses Chrome's Declarative Net Request API to block requests made to known tracking domains.
+
+The extension:
+
+- Detects supported tracking requests
+- Blocks tracker domains
+- Records blocking statistics
+- Tracks visited websites
+- Stores data locally using Chrome Storage API
+- Displays analytics through an interactive dashboard
+- Allows users to enable or disable protection
+- Provides a settings page to reset stored statistics
 
 ---
 
-# 🏗️ System Architecture
+# 📈 Future Improvements
 
-```text
-                 User
-                   │
-                   ▼
-            Popup Interface
-                   │
-      ┌────────────┼────────────┐
-      ▼            ▼            ▼
- Analytics     Settings     Background
-                                   │
-                                   ▼
-                  Declarative Net Request API
-                                   │
-                                   ▼
-                      Chrome Storage API
-                                   │
-                                   ▼
-                        Statistics Engine
-```
-
----
-
-# 📊 Analytics
-
-TrackerShield records:
-
-- Total blocked trackers
-- Today's blocked trackers
-- Protected websites
-- Top blocked domains
-- Activity log
-
-All statistics are stored locally.
-
----
-
-# 🔒 Privacy
-
-TrackerShield **does not**
-
-- Collect personal information
-- Store browsing history remotely
-- Upload user data
-- Use external tracking services
-
-All information remains on the user's device using Chrome Storage API.
-
----
-
-# 🛠️ Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript (ES6)
-- Chrome Manifest V3
-- Chrome Storage API
-- Declarative Net Request API
-
----
-
-# 📦 Current Version
-
-```text
-TrackerShield v1.2.0
-```
-
----
-
-# 🗺️ Roadmap
-
-Future improvements:
-
-- Dark Mode
-- Import Backup
-- Cloud Synchronization
-- Weekly Reports
-- Custom Blocking Rules
-- Tracker Categories
-- Performance Dashboard
-- Chrome Web Store Release
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-Please read **CONTRIBUTING.md** before submitting Pull Requests.
-
----
-
-# 🔐 Security
-
-If you discover a security issue, please refer to **SECURITY.md**.
-
----
-
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
-See the **LICENSE** file for details.
+- Dark mode
+- Custom block lists
+- Tracker categorization
+- Weekly and monthly analytics
+- Export statistics
+- Sync settings across Chrome devices
+- Real-time notifications
+- Whitelist support
 
 ---
 
@@ -254,10 +160,17 @@ See the **LICENSE** file for details.
 
 **Ejo Janeesh**
 
-Cybersecurity Project
-
-TrackerShield v1.2.0
+GitHub:
+https://github.com/Ejojaneesh
 
 ---
 
-⭐ If you found this project useful, consider giving the repository a star.
+# 📄 License
+
+This project is licensed under the MIT License.
+
+See the LICENSE file for more details.
+
+---
+
+⭐ If you found this project useful, consider giving it a star on GitHub.
